@@ -12,6 +12,7 @@ galaga.y = 750
 
 bullets = []
 bugs = []
+score = 0
 
 for x in range(5):
     for y in range(5):
@@ -40,9 +41,11 @@ def draw():
             screen.draw.text("Game Over, You Lost!", (100, 300), fontsize = 50)
             screen.draw.text("Press R to replay", (300,500), fontsize = 50)
 
+    screen.draw.text("Score = " +str(score), (100, 600), fontsize = 25)
+
 
 def update():
-    global game
+    global game, score
     if keyboard.left:
         galaga.x = galaga.x - 10
     if keyboard.right: 
@@ -57,9 +60,12 @@ def update():
             if i.colliderect(j):
                 bullets.remove(i)
                 bugs.remove(j)
+                score += 1
 
         if j.colliderect(galaga):
             game = "lost"
+
+
 
 def on_key_down(key):
     global game, bullets, bugs
@@ -69,10 +75,12 @@ def on_key_down(key):
         bullet.y = galaga.y
         bullets.append(bullet)
 
-    if game == False or game == "lost":
+    if (game == False) or (game == "lost"):
         if key == keys.R:
             
             game = True
+            bugs = []
+            bullets = []
             for x in range(5):
                 for y in range(5):
                     bug2 = Actor("bug.png")
@@ -82,6 +90,8 @@ def on_key_down(key):
 
 
 pgzrun.go()
+
+        
 
         
 
